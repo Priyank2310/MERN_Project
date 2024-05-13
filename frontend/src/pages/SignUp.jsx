@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function SignUp() {
@@ -19,6 +19,9 @@ function SignUp() {
       // Password strength check
       const strength = checkPasswordStrength(value);
       setPasswordStrength(strength);
+      // Check if the passwords match here as well
+      const match = value === formData.confirmPassword;
+      setPasswordMatch(match);
     } else if (id === 'confirmPassword') {
       // Confirm password match check
       const match = value === formData.password;
@@ -79,11 +82,7 @@ function SignUp() {
   return (
     <div className='min-h-screen flex justify-center items-center bg-gray-200'>
       <div className='max-w-md w-full p-8 bg-white rounded-lg shadow-lg'>
-        {signedUp ? (
-          <Alert className='mb-4' color='success'>
-            Successfully signed up! You can now sign in.
-          </Alert>
-        ) : (
+        {!signedUp ? (
           <>
             <form className='flex flex-col gap-6' onSubmit={handleSubmit}>
               <div>
@@ -165,6 +164,10 @@ function SignUp() {
               </Alert>
             )}
           </>
+        ) : (
+          <Alert className='mb-4' color='success'>
+            Successfully signed up! You can now sign in.
+          </Alert>
         )}
       </div>
     </div>
